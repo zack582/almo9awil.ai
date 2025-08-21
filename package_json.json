@@ -1,0 +1,36 @@
+{
+  "name": "almiqaoul-search-engine",
+  "version": "1.0.0",
+  "description": "محرك بحث ذكي للمقاولين والأعمال التجارية باللغة العربية",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server .",
+    "build": "echo 'Static site - no build required'",
+    "deploy": "echo 'Deploy via Netlify dashboard or Git push'"
+  },
+  "keywords": [
+    "arabic",
+    "search",
+    "ai",
+    "contractor",
+    "business",
+    "مقاول",
+    "بحث",
+    "ذكي"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/almiqaoul-search-engine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/almiqaoul-search-engine/issues"
+  },
+  "homepage": "https://your-site-name.netlify.app",
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "serve": "^14.2.0"
+  }
+}

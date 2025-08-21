@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>محرك البحث – المقاول</title>
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="محرك بحث ذكي للمقاولين والأعمال التجارية" />
+  <meta name="keywords" content="مقاول، أعمال، بحث، ذكي، عربي" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+
+    :root{
+      --bg: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+      --bg-secondary: rgba(26, 26, 58, 0.8);
+      --card: rgba(47, 47, 95, 0.9);
+      --card-hover: rgba(58, 58, 110, 0.95);
+      --muted: #9ca3af;
+      --text: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --accent: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      --accent-glow: #3b82f6;
+      --accent-hover: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      --accent-2: #60a5fa;
+      --border: rgba(148, 163, 184, 0.2);
+      --border-light: rgba(148, 163, 184, 0.4);
+      --shadow: 0 4px 24px rgba(0,0,0,0.25);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
+      --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
+      --radius: 16px;
+      --radius-lg: 24px;
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+      text-align: right;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    /* Animated background particles */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      33% { transform: translateY(-20px) rotate(1deg); }
+      66% { transform: translateY(10px) rotate(-1deg); }
+    }
+
+    .wrap {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 32px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 0 32px;
+      position: relative;
+    }
+
+    .brand {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: row-reverse;
+      position: relative;
+    }
+
+    .logo {
+      width: 72px;
+      height: 72px;
+      border-radius: var(--radius-lg);
+      display: grid;
+      place-items: center;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: 0.5px;
+      box-shadow: var(--shadow-glow), var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+      transform: rotate(45deg);
+      animation: shine 3s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) rotate(45deg); }
+      100% { transform: translateX(-100%) rotate(45deg); }
+    }
+
+    .logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: var(--shadow-glow), 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    h1 {
+      font-size: 56px;
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-2) 50%, var(--text) 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease-in-out infinite;
+      text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+    }
+
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .subtitle {
+      color: var(--muted);
+      text-align: center;
+      font-size: 18px;
+      font-weight: 400;
+      margin: 24px 0 40px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 0.5s forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .search-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .search-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-lg);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .search-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .search-card:hover {
+      border-color: var(--border-light);
+      box-shadow: var(--shadow-glow), var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .search-card:hover::before {
+      opacity: 1;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-direction: row-reverse;
+      margin-bottom: 24px;
+    }
+
+    .input {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .input::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .input:focus-within {
+      border-color: var(--accent-glow);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), var(--shadow);
+      transform: translateY(-1px);
+    }
+
+    .input:focus-within::before {
+      left: 100%;
+    }
+
+    .input input {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--text);
+      width: 100%;
+      font-size: 18px;
+      font-family: inherit;
+      font-weight: 400;
+    }
+
+    .input input::placeholder {
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .btn {
+      appearance: none;
+      border: none;
+      cursor: pointer;
+      border-radius: var(--radius);
+      padding: 20px 32px;
+      font-weight: 600;
+      font-size: 16px;
+      color: white;
+      background: var(--accent);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .btn:hover:not([disabled]) {
+      background: var(--accent-hover);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: var(--shadow-glow), 0 15px 40px rgba(0,0,0,0.4);
+    }
+
+    .btn:hover:not([disabled])::before {
+      left: 100%;
+    }
+
+    .btn[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn:active:not([disabled]) {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .ghost {
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    .ghost:hover:not([disabled]) {
+      background: var(--card-hover);
+      border-color: var(--accent-glow);
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .chips {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1s forwards;
+    }
+
+    .chip {
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chip::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .chip:hover {
+      color: var(--text);
+      border-color: var(--accent-glow);
+      background: var(--card);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    }
+
+    .chip:hover::before {
+      width: 200%;
+      height: 200%;
+    }
+
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      opacity: 0;
+      animation: fadeInUp 1s ease-out 1.5s forwards;
+    }
+
+    @media (min-width: 1024px) {
+      .main-content {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      height: fit-content;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(135deg, var(--accent-glow), transparent, var(--accent-2), transparent);
+      border-radius: var(--radius-lg);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .panel:hover {
+      border-color: var(--border-light);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow), 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    .panel:hover::before {
+      opacity: 1;
+    }
+
+    .result {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      min-height: 500px;
+    }
+
+    .inline-link {
+      color: var(--accent-glow);
+      text-decoration: none;
+      padding: 4px 12px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin: 0 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .inline-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.3s ease;
+    }
+
+    .inline-link:hover {
+      color: white;
+      background: var(--accent-glow);
+      border-color: var(--accent-glow);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    .inline-link:hover::before {
+      left: 100%;
+    }
+
+    .inline-link::after {
+      content: "↗";
+      font-size: 12px;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+
+    .inline-link:hover::after {
+      opacity: 1;
+      transform: translate(2px, -2px);
+    }
+
+    .bubble {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-glow), var(--accent-2));
+      transform: scaleX(0);
+      transition: transform 0.5s ease;
+    }
+
+    .bubble:hover {
+      border-color: var(--border-light);
+      transform: translateX(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .bubble:hover::before {
+      transform: scaleX(1);
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 500;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .sources {
+      display: grid;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .src {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .src::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .src:hover {
+      border-color: var(--accent-glow);
+      background: var(--card);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+    }
+
+    .src:hover::before {
+      left: 100%;
+    }
+
+    .src a {
+      color: var(--accent-glow);
+      text-decoration: none;
+      direction: ltr !important;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .src a:hover {
+      text-decoration: underline;
+      color: var(--accent-2);
+      text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 20px var(--accent-2);
+      animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 20px var(--accent-2);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+        box-shadow: 0 0 30px var(--accent-2);
+      }
+    }
+
+    .muted { color: var(--muted); font-weight: 500; }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 24px 0;
+      flex: 1;
+    }
+
+    .error {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .copy {
+      font-size: 13px;
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: var(--radius);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 600;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .copy::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+      transition: all 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .copy:hover {
+      color: var(--text);
+      border-color: var(--accent-glow);
+      background: var(--card);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+    }
+
+    .copy:hover::before {
+      width: 200%;
+      height: 200%;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent-glow);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .panel h3 {
+      margin: 0 0 24px 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--text), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .conversation-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      color: var(--accent-glow);
+      opacity: 0.9;
+    }
+
+    /* Scroll to results indicator */
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      box-shadow: var(--shadow-glow), var(--shadow);
+    }
+
+    .scroll-indicator.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .scroll-indicator:hover {
+      transform: scale(1.1);
+      box-shadow: var(--shadow-glow), 0 15px 40px rgba(0,0,0,0.4);
+    }
+
+    .scroll-indicator::after {
+      content: "⬇";
+      color: white;
+      font-size: 20px;
+      animation: bounce-down 2s infinite;
+    }
+
+    @keyframes bounce-down {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(5px);
+      }
+      60% {
+        transform: translateY(3px);
+      }
+    }
+
+    /* Light mode */
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        --bg-secondary: rgba(248, 250, 252, 0.8);
+        --card: rgba(255, 255, 255, 0.9);
+        --card-hover: rgba(248, 250, 252, 0.95);
+        --text: #1e293b;
+        --text-secondary: #475569;
+        --muted: #64748b;
+        --border: rgba(148, 163, 184, 0.3);
+        --border-light: rgba(148, 163, 184, 0.5);
+        --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
+        --glass-bg: rgba(255, 255, 255, 0.4);
+        --glass-border: rgba(255, 255, 255, 0.6);
+      }
+
+      body::before {
+        background: 
+          radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+      }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+      .wrap {
+        padding: 0 20px;
+      }
+      
+      .header {
+        padding: 32px 0 24px;
+      }
+      
+      h1 {
+        font-size: 40px;
+      }
+      
+      .logo {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+      }
+      
+      .search-card {
+        padding: 24px;
+      }
+      
+      .row {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .chips {
+        justify-content: center;
+      }
+      
+      .chip {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .scroll-indicator {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    /* Focus states */
+    .btn:focus-visible, .chip:focus-visible, .copy:focus-visible {
+      outline: 2px solid var(--accent-glow);
+      outline-offset: 3px;
+    }
+
+    /* Thinking indicators */
+    .thinking-bubble {
+      background: var(--glass-bg);
+      border: 2px solid var(--accent-glow);
+      animation: thinking-pulse 2s infinite;
+    }
+
+    @keyframes thinking-pulse {
+      0%, 100% {
+        border-color: var(--accent-glow);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+      }
+      50% {
+        border-color: var(--accent-2);
+        box-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+      }
+    }
+
+    .thinking-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .thinking-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-glow);
+      border-radius: 50%;
+      animation: thinking-bounce 1.4s infinite both;
+    }
+
+    .thinking-dot:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    .thinking-dot:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+
+    @keyframes thinking-bounce {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    .thinking-text {
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+      animation: thinking-fade 2s infinite;
+    }
+
+    @keyframes thinking-fade {
+      0%, 100% {
+        opacity: 0.6;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-glow);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-2);
+    }
+
+    /* Auto-scroll animations */
+    .conversation-container {
+      max-height: 70vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      padding-right: 8px;
+    }
+
+    /* Highlight effect for new content */
+    .new-content {
+      animation: highlight-pulse 3s ease-out;
+    }
+
+    @keyframes highlight-pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+      }
+      50% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0.1);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand">
+        <h1>المقاول</h1>
+        <div class="logo">م</div>
+      </div>
+    </header>
+
+    <div class="search-section">
+      <div class="search-card">
+        <form id="search-form" class="row" autocomplete="off">
+          <div class="input">
+            <input id="q" name="q" placeholder="اكتب سؤالك هنا…" required />
+          </div>
+          <button id="submit-btn" class="btn" type="submit">
+            <span>ابحث</span>
+          </button>
+          <button type="button" id="clear" class="btn ghost">محو</button>
+        </form>
+        <div class="chips" id="chips">
+          <span class="chip">ما هو المقاول الذاتي؟</span>
+          <span class="chip">كيفية إنشاء خطة عمل؟</span>
+          <span class="chip">أفكار مشاريع ناجحة</span>
+          <span class="chip">مصادر تمويل المشاريع</span>
+        </div>
+      </div>
+
+      <div class="main-content" id="main-content">
+        <section class="panel result" id="results">
+          <div class="meta">
+            <div class="status">
+              <span class="dot"></span> 
+              <span id="status-text">جاهز</span>
+            </div>
+            <div class="divider"></div>
+            <button id="copy-last" class="copy">نسخ آخر إجابة</button>
+          </div>
+          <div id="conversation" class="conversation-container"></div>
+        </section>
+
+        <aside class="panel">
+          <h3>السجل المحلي</h3>
+          <div id="history" class="sources muted"></div>
+          <div class="divider"></div>
+          <button id="clear-history" class="btn ghost">مسح السجل</button>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Scroll to results indicator -->
+    <div class="scroll-indicator" id="scroll-indicator"></div>
+  </div>
+
+  <script>
+    // Configuration - Update this URL for production
+    const WEBHOOK_URL = window.location.hostname === 'localhost' 
+      ? "http://localhost:5678/webhook-test/247924dc-d09c-44bb-b062-033b71738f7f"
+      : "https://your-production-webhook-url.com/webhook/your-id";
+    
+    const REQUEST_TIMEOUT = 60000;
+
+    // Auto-scroll functionality
+    const autoScrollToResults = () => {
+      const resultsSection = document.getElementById('main-content');
+      const scrollIndicator = document.getElementById('scroll-indicator');
+      
+      // Show scroll indicator
+      scrollIndicator.classList.add('show');
+      
+      // Smooth scroll to results with offset for better visibility
+      const offsetPosition = resultsSection.offsetTop - 100;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      // Hide scroll indicator after scroll
+      setTimeout(() => {
+        scrollIndicator.classList.remove('show');
+      }, 2000);
+    };
+
+    const autoScrollConversation = () => {
+      const conversationContainer = document.getElementById("conversation");
+      conversationContainer.scrollTo({
+        top: conversationContainer.scrollHeight,
+        behavior: 'smooth'
+      });
+    };
+
+    const status = (text, loading=false) => {
+      const t = document.getElementById("status-text");
+      t.textContent = text;
+      
+      const existingSpinner = t.querySelector(".spinner");
+      if (existingSpinner) existingSpinner.remove();
+      
+      if (loading) {
+        const spinner = document.createElement("span");
+        spinner.className = "spinner";
+        spinner.style = "margin-left:10px";
+        t.prepend(spinner);
+      }
+    };
+
+    let searchHistory = [];
+
+    const saveHistory = (item) => {
+      searchHistory.unshift(item);
+      searchHistory = searchHistory.slice(0, 50);
+      renderHistory();
+    };
+
+    const renderHistory = () => {
+      const wrap = document.getElementById("history");
+      wrap.innerHTML = "";
+      
+      if (!searchHistory.length) {
+        wrap.innerHTML = "<div class='muted'>السجل فارغ. ستظهر آخر 50 عملية بحث هنا.</div>";
+        return;
+      }
+      
+      searchHistory.forEach(it => {
+        const b = document.createElement("div"); 
+        b.className = "src";
+        
+        const title = document.createElement("div");
+        title.innerHTML = `<strong>${it.q}</strong>`;
+        
+        const when = document.createElement("div");
+        when.className = "muted";
+        when.style.fontSize = "12px";
+        when.style.marginTop = "8px";
+        when.textContent = new Date(it.t).toLocaleString("ar-MA");
+        
+        const btn = document.createElement("button");
+        btn.className = "copy";
+        btn.textContent = "أعد البحث";
+        btn.style.marginTop = "12px";
+        btn.onclick = () => {
+          document.getElementById("q").value = it.q;
+          document.getElementById("search-form").dispatchEvent(new Event("submit"));
+        };
+        
+        b.appendChild(title);
+        b.appendChild(when);
+        b.appendChild(btn);
+        wrap.appendChild(b);
+      });
+    };
+
+    const cleanAnswer = (rawData) => {
+      let answer = "";
+      
+      if (typeof rawData === "string") {
+        try {
+          const parsed = JSON.parse(rawData);
+          answer = parsed.completion || parsed.answer || parsed.data || parsed.text || rawData;
+        } catch {
+          answer = rawData;
+        }
+      } else if (rawData && typeof rawData === "object") {
+        answer = rawData.completion || rawData.answer || rawData.data || rawData.text || JSON.stringify(rawData, null, 2);
+      }
+      
+      return answer.trim();
+    };
+
+    const makeLinksClickable = (text) => {
+      const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
+      return text.replace(urlRegex, (url) => {
+        try {
+          // Clean the URL by removing trailing punctuation
+          let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
+          
+          // Skip very short URLs
+          if (cleanUrl.length < 8) {
+            return url;
+          }
+          
+          // Validate URL format
+          let urlObj;
+          try {
+            urlObj = new URL(cleanUrl);
+          } catch {
+            return url;
+          }
+          
+          const domain = urlObj.hostname.replace('www.', '');
+          
+          // Skip localhost and local IPs
+          if (domain.includes('localhost') || 
+              domain.includes('127.0.0.1') || 
+              domain.includes('192.168.') ||
+              domain.includes('10.0.') ||
+              domain.includes('172.')) {
+            return url;
+          }
+          
+          // Create actual <a> link instead of onclick function to avoid popup blocker
+          return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
+          
+        } catch (e) {
+          console.warn('Invalid URL detected:', url, e);
+          return url;
+        }
+      });
+    };
+
+    const typeText = async (element, text, speed = 20) => {
+      element.innerHTML = "";
+      const characters = text.split("");
+      let currentText = "";
+      
+      for (let i = 0; i < characters.length; i++) {
+        const char = characters[i];
+        currentText += char;
+        
+        element.innerHTML = makeLinksClickable(currentText);
+        
+        // Auto-scroll during typing to follow the response
+        autoScrollConversation();
+        
+        const delay = char === '.' || char === '!' || char === '?' 
+          ? speed * 10 
+          : char === ',' || char === ';' 
+          ? speed * 5 
+          : char === ' ' 
+          ? speed * 2
+          : speed;
+          
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      // Final scroll to ensure everything is visible
+      setTimeout(autoScrollConversation, 100);
+    };
+
+    const addBubble = async (text, role="user", sources=[]) => {
+      const conv = document.getElementById("conversation");
+      
+      const label = document.createElement("div");
+      label.className = "conversation-label";
+      label.textContent = role === "user" ? "أنت" : role === "error" ? "خطأ" : "الرد";
+      conv.appendChild(label);
+
+      const box = document.createElement("div");
+      box.className = "bubble" + (role === "error" ? " error" : "") + " new-content";
+      
+      if (role === "ai") {
+        conv.appendChild(box);
+        // Scroll to show the new bubble before typing starts
+        autoScrollConversation();
+        await typeText(box, text, 18);
+      } else {
+        box.textContent = text;
+        conv.appendChild(box);
+        // Scroll to show user input
+        autoScrollConversation();
+      }
+
+      if (role === "ai" && sources.length) {
+        const title = document.createElement("div");
+        title.className = "conversation-label";
+        title.style.marginTop = "20px";
+        title.textContent = "مصادر";
+        
+        const grid = document.createElement("div");
+        grid.className = "sources new-content";
+        
+        sources.forEach(s => {
+          const item = document.createElement("div");
+          item.className = "src";
+          const a = document.createElement("a");
+          a.href = s.url; 
+          a.target = "_blank"; 
+          a.rel = "noreferrer noopener";
+          a.textContent = s.title;
+          item.appendChild(a);
+          grid.appendChild(item);
+        });
+        
+        conv.appendChild(title);
+        conv.appendChild(grid);
+        
+        // Scroll to show sources
+        autoScrollConversation();
+      }
+
+      // Remove highlight animation class after animation completes
+      setTimeout(() => {
+        box.classList.remove('new-content');
+        if (role === "ai" && sources.length) {
+          document.querySelector('.sources.new-content')?.classList.remove('new-content');
+        }
+      }, 3000);
+
+      conv.dataset.last = text;
+    };
+
+    async function askN8N(question) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+      let res;
+      
+      try {
+        res = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            // Add any required authentication headers here
+          },
+          body: JSON.stringify({ question }),
+          signal: controller.signal
+        });
+      } catch (error) {
+        clearTimeout(timer);
+        
+        // Handle network errors gracefully
+        if (error.name === 'AbortError') {
+          throw new Error('انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.');
+        }
+        
+        if (!navigator.onLine) {
+          throw new Error('لا يوجد اتصال بالإنترنت. يرجى التحقق من اتصالك.');
+        }
+        
+        throw new Error('خطأ في الاتصال بالخدمة. يرجى المحاولة لاحقاً.');
+      } finally {
+        clearTimeout(timer);
+      }
+      
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error(`خطأ في الخدمة (${res.status}) – ${txt || "خطأ في الطلب"}`);
+      }
+      
+      const ct = res.headers.get("content-type") || "";
+      return ct.includes("application/json") ? res.json() : res.text();
+    }
+
+    // Enhanced event listeners with auto-scroll functionality
+    document.getElementById("search-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const q = document.getElementById("q").value.trim();
+      if (!q) return;
+      
+      const submitBtn = document.getElementById("submit-btn");
+      const inputElement = document.getElementById("q");
+      
+      // Clear the input field immediately so user can type another question
+      inputElement.value = "";
+      
+      submitBtn.disabled = true;
+      inputElement.style.transform = "scale(0.98)";
+      
+      // Auto-scroll to results section when user submits a question
+      setTimeout(autoScrollToResults, 300);
+      
+      // Show user question first
+      await addBubble(q, "user");
+      
+      // Show thinking status
+      status("المساعد يفكر في الإجابة...", true);
+      
+      // Add thinking indicator in conversation
+      const conv = document.getElementById("conversation");
+      const thinkingLabel = document.createElement("div");
+      thinkingLabel.className = "conversation-label";
+      thinkingLabel.textContent = "المساعد";
+      thinkingLabel.id = "thinking-label";
+      
+      const thinkingBubble = document.createElement("div");
+      thinkingBubble.className = "bubble thinking-bubble";
+      thinkingBubble.id = "thinking-bubble";
+      thinkingBubble.innerHTML = `
+        <div class="thinking-dots">
+          <span class="thinking-dot"></span>
+          <span class="thinking-dot"></span>
+          <span class="thinking-dot"></span>
+        </div>
+        <div class="thinking-text">يتم تحليل السؤال وإعداد الإجابة...</div>
+      `;
+      
+      conv.appendChild(thinkingLabel);
+      conv.appendChild(thinkingBubble);
+      autoScrollConversation();
+
+      try {
+        const raw = await askN8N(q);
+        const answer = cleanAnswer(raw);
+        let sources = [];
+        
+        if (raw && typeof raw === "object" && Array.isArray(raw.sources)) {
+          sources = raw.sources.map(s => 
+            typeof s === "string" 
+              ? { title: s, url: s } 
+              : { title: s.title || s.url, url: s.url || "#" }
+          );
+        }
+        
+        // Remove thinking indicators
+        document.getElementById("thinking-label")?.remove();
+        document.getElementById("thinking-bubble")?.remove();
+        
+        // Add AI response with auto-scroll
+        await addBubble(answer, "ai", sources);
+        saveHistory({ q, t: Date.now() });
+        status("تم الانتهاء", false);
+        
+        // Success animation
+        inputElement.style.transform = "scale(1)";
+        inputElement.style.borderColor = "var(--accent-glow)";
+        setTimeout(() => {
+          inputElement.style.borderColor = "";
+        }, 1000);
+        
+      } catch(err) {
+        console.error(err);
+        
+        // Remove thinking indicators
+        document.getElementById("thinking-label")?.remove();
+        document.getElementById("thinking-bubble")?.remove();
+        
+        await addBubble(err.message, "error");
+        status("حدث خطأ", false);
+        
+        // Error animation
+        inputElement.style.transform = "scale(1)";
+        inputElement.style.borderColor = "#ef4444";
+        setTimeout(() => {
+          inputElement.style.borderColor = "";
+        }, 2000);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    document.getElementById("clear").onclick = () => {
+      const input = document.getElementById("q");
+      const conv = document.getElementById("conversation");
+      
+      input.value = "";
+      conv.innerHTML = "";
+      status("جاهز");
+      
+      // Clear animation
+      input.style.transform = "scale(1.02)";
+      setTimeout(() => {
+        input.style.transform = "scale(1)";
+        input.focus();
+      }, 200);
+    };
+
+    document.getElementById("copy-last").onclick = () => {
+      const txt = document.getElementById("conversation").dataset.last || "";
+      if (!txt) {
+        alert("لا توجد إجابة للنسخ.");
+        return;
+      }
+      
+      navigator.clipboard.writeText(txt)
+        .then(() => {
+          const btn = document.getElementById("copy-last");
+          const originalText = btn.textContent;
+          btn.textContent = "تم النسخ!";
+          btn.style.background = "var(--accent)";
+          btn.style.color = "white";
+          
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = "";
+            btn.style.color = "";
+          }, 2000);
+        })
+        .catch(() => alert("النسخ فشل."));
+    };
+
+    document.getElementById("chips").onclick = (e) => {
+      const chip = e.target.closest(".chip");
+      if (!chip) return;
+      
+      // Chip click animation
+      chip.style.transform = "scale(0.95)";
+      setTimeout(() => {
+        chip.style.transform = "";
+        document.getElementById("q").value = chip.textContent.trim();
+        document.getElementById("search-form").dispatchEvent(new Event("submit"));
+      }, 150);
+    };
+
+    document.getElementById("clear-history").onclick = () => {
+      if (confirm("هل أنت متأكد من مسح السجل؟")) {
+        searchHistory = [];
+        renderHistory();
+        
+        // Clear animation
+        const btn = document.getElementById("clear-history");
+        btn.style.transform = "scale(0.95)";
+        setTimeout(() => {
+          btn.style.transform = "";
+        }, 150);
+      }
+    };
+
+    // Scroll indicator click handler
+    document.getElementById("scroll-indicator").onclick = () => {
+      autoScrollToResults();
+    };
+
+    // Initialize with entrance animations
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHistory();
+      
+      // Add entrance animation to elements
+      const elements = document.querySelectorAll('.search-card, .panel');
+      elements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        setTimeout(() => {
+          el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 200 + (index * 100));
+      });
+      
+      // Focus on input when page loads
+      setTimeout(() => {
+        document.getElementById("q").focus();
+      }, 1000);
+    });
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'k') {
+          e.preventDefault();
+          document.getElementById("q").focus();
+        }
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          document.getElementById("search-form").dispatchEvent(new Event("submit"));
+        }
+      }
+      
+      if (e.key === 'Escape') {
+        document.getElementById("q").blur();
+      }
+    });
+
+    // Enhanced scroll behavior for better UX
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const scrollIndicator = document.getElementById('scroll-indicator');
+        const resultsSection = document.getElementById('main-content');
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const resultsPosition = resultsSection.offsetTop - 200;
+        
+        // Show scroll indicator if user is above results section and there's content
+        const hasContent = document.getElementById('conversation').children.length > 0;
+        
+        if (scrollTop < resultsPosition && hasContent) {
+          scrollIndicator.classList.add('show');
+        } else {
+          scrollIndicator.classList.remove('show');
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
