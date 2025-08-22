@@ -1462,8 +1462,9 @@
       chip.style.transform = "scale(0.95)";
       setTimeout(() => {
         chip.style.transform = "";
-        document.getElementById("q").value = chip.textContent.trim();
-        document.getElementById("search-form").dispatchEvent(new Event("submit"));
+        const input = document.getElementById("q");
+        input.value = chip.textContent.trim();
+        input.focus(); // Focus sur le champ pour que l'utilisateur voit que le texte a été inséré
       }, 150);
     };
 
