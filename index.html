@@ -1144,69 +1144,101 @@
       return answer.trim();
     };
 
-    const makeLinksClickable = (text) => {
+    const createLinksInText = (text, container) => {
   const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
-  return text.replace(urlRegex, (url) => {
-    try {
-      let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
-      
-      if (cleanUrl.length < 8) return url;
-      
-      let urlObj;
+  const parts = text.split(urlRegex);
+  
+  container.innerHTML = '';
+  
+  parts.forEach(part => {
+    if (urlRegex.test(part)) {
       try {
-        urlObj = new URL(cleanUrl);
-      } catch {
-        return url;
+        let cleanUrl = part.replace(/[)}\].,;:!?]+$/, '');
+        
+        if (cleanUrl.length < 8) {
+          container.appendChild(document.createTextNode(part));
+          return;
+        }
+        
+        let urlObj;
+        try {
+          urlObj = new URL(cleanUrl);
+        } catch {
+          container.appendChild(document.createTextNode(part));
+          return;
+        }
+        
+        const domain = urlObj.hostname.replace('www.', '');
+        
+        if (domain.includes('localhost') || 
+            domain.includes('127.0.0.1') || 
+            domain.includes('192.168.') ||
+            domain.includes('10.0.') ||
+            domain.includes('172.')) {
+          container.appendChild(document.createTextNode(part));
+          return;
+        }
+        
+        const linkSpan = document.createElement('span');
+        linkSpan.className = 'inline-link';
+        linkSpan.style.cssText = `
+          cursor: pointer; 
+          color: var(--accent-glow); 
+          text-decoration: underline; 
+          padding: 4px 8px; 
+          border: 1px solid var(--border); 
+          border-radius: 8px; 
+          background: rgba(59, 130, 246, 0.1); 
+          display: inline-block; 
+          margin: 0 4px;
+        `;
+        linkSpan.textContent = domain + ' ↗';
+        
+        linkSpan.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          window.open(cleanUrl, '_blank', 'noopener,noreferrer');
+        });
+        
+        container.appendChild(linkSpan);
+        
+      } catch (e) {
+        console.warn('Invalid URL detected:', part, e);
+        container.appendChild(document.createTextNode(part));
       }
-      
-      const domain = urlObj.hostname.replace('www.', '');
-      
-      if (domain.includes('localhost') || 
-          domain.includes('127.0.0.1') || 
-          domain.includes('192.168.') ||
-          domain.includes('10.0.') ||
-          domain.includes('172.')) {
-        return url;
-      }
-      
-      // Solution : utiliser onclick au lieu d'href dans innerHTML
-      return `<span class="inline-link" onclick="window.open('${cleanUrl}', '_blank')" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-block; margin: 0 4px;">${domain} ↗</span>`;
-      
-    } catch (e) {
-      console.warn('Invalid URL detected:', url, e);
-      return url;
+    } else {
+      container.appendChild(document.createTextNode(part));
     }
   });
 };
-
     const typeText = async (element, text, speed = 20) => {
-      element.innerHTML = "";
-      const characters = text.split("");
-      let currentText = "";
-      
-      for (let i = 0; i < characters.length; i++) {
-        const char = characters[i];
-        currentText += char;
+  element.innerHTML = "";
+  const characters = text.split("");
+  let currentText = "";
+  
+  for (let i = 0; i < characters.length; i++) {
+    const char = characters[i];
+    currentText += char;
+    
+    element.textContent = currentText;
+    
+    autoScrollConversation();
+    
+    const delay = char === '.' || char === '!' || char === '?' 
+      ? speed * 10 
+      : char === ',' || char === ';' 
+      ? speed * 5 
+      : char === ' ' 
+      ? speed * 2
+      : speed;
         
-        element.innerHTML = makeLinksClickable(currentText);
-        
-        // Auto-scroll during typing to follow the response
-        autoScrollConversation();
-        
-        const delay = char === '.' || char === '!' || char === '?' 
-          ? speed * 10 
-          : char === ',' || char === ';' 
-          ? speed * 5 
-          : char === ' ' 
-          ? speed * 2
-          : speed;
-          
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-      
-      // Final scroll to ensure everything is visible
-      setTimeout(autoScrollConversation, 100);
-    };
+    await new Promise(resolve => setTimeout(resolve, delay));
+  }
+  
+  createLinksInText(currentText, element);
+  
+  setTimeout(autoScrollConversation, 100);
+};
 
     const addBubble = async (text, role="user", sources=[]) => {
       const conv = document.getElementById("conversation");
