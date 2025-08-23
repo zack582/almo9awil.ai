@@ -1033,7 +1033,10 @@
 
   <script>
     // Configuration - Update this URL for production
-    const WEBHOOK_URL = "http://localhost:5678/webhook-test/247924dc-d09c-44bb-b062-033b71738f7f";
+    const WEBHOOK_URL = window.location.hostname === 'localhost' 
+      ? "http://localhost:5678/webhook-test/247924dc-d09c-44bb-b062-033b71738f7f"
+      : "https://your-production-webhook-url.com/webhook/your-id";
+    
     const REQUEST_TIMEOUT = 60000;
 
     // Auto-scroll functionality
@@ -1144,108 +1147,75 @@
       return answer.trim();
     };
 
-const createLinksInText = (text, container) => {
-  // Nettoyer le texte d'abord
-  text = text.replace(/<[^>]*>/g, ''); // Supprimer HTML
-  text = text.replace(/\*\*(.*?)\*\*/g, '$1'); // Convertir markdown gras
-  text = text.replace(/\s+/g, ' ').trim(); // Nettoyer espaces
-  
-  const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
-  const parts = text.split(urlRegex);
-  
-  container.innerHTML = '';
-  
-  parts.forEach(part => {
-    if (urlRegex.test(part)) {
-      try {
-        let cleanUrl = part.replace(/[)}\].,;:!?]+$/, '');
-        
-        if (cleanUrl.length < 8) {
-          container.appendChild(document.createTextNode(part));
-          return;
-        }
-        
-        let urlObj;
+    const makeLinksClickable = (text) => {
+      const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
+      return text.replace(urlRegex, (url) => {
         try {
-          urlObj = new URL(cleanUrl);
-        } catch {
-          container.appendChild(document.createTextNode(part));
-          return;
+          // Clean the URL by removing trailing punctuation
+          let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
+          
+          // Skip very short URLs
+          if (cleanUrl.length < 8) {
+            return url;
+          }
+          
+          // Validate URL format
+          let urlObj;
+          try {
+            urlObj = new URL(cleanUrl);
+          } catch {
+            return url;
+          }
+          
+          const domain = urlObj.hostname.replace('www.', '');
+          
+          // Skip localhost and local IPs
+          if (domain.includes('localhost') || 
+              domain.includes('127.0.0.1') || 
+              domain.includes('192.168.') ||
+              domain.includes('10.0.') ||
+              domain.includes('172.')) {
+            return url;
+          }
+          
+          // Create actual <a> link instead of onclick function to avoid popup blocker
+          return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
+          
+        } catch (e) {
+          console.warn('Invalid URL detected:', url, e);
+          return url;
         }
-        
-        const domain = urlObj.hostname.replace('www.', '');
-        
-        if (domain.includes('localhost') || 
-            domain.includes('127.0.0.1') || 
-            domain.includes('192.168.') ||
-            domain.includes('10.0.') ||
-            domain.includes('172.')) {
-          container.appendChild(document.createTextNode(part));
-          return;
-        }
-        
-        const linkSpan = document.createElement('span');
-        linkSpan.className = 'inline-link';
-        linkSpan.style.cssText = `
-          cursor: pointer; 
-          color: var(--accent-glow); 
-          text-decoration: underline; 
-          padding: 4px 8px; 
-          border: 1px solid var(--border); 
-          border-radius: 8px; 
-          background: rgba(59, 130, 246, 0.1); 
-          display: inline-block; 
-          margin: 0 4px;
-        `;
-        linkSpan.textContent = domain + ' ↗';
-        
-        linkSpan.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          window.open(cleanUrl, '_blank', 'noopener,noreferrer');
-        });
-        
-        container.appendChild(linkSpan);
-        
-      } catch (e) {
-        console.warn('Invalid URL detected:', part, e);
-        container.appendChild(document.createTextNode(part));
-      }
-    } else {
-      container.appendChild(document.createTextNode(part));
-    }
-  });
-};
+      });
+    };
 
-    
     const typeText = async (element, text, speed = 20) => {
-  element.innerHTML = "";
-  const characters = text.split("");
-  let currentText = "";
-  
-  for (let i = 0; i < characters.length; i++) {
-    const char = characters[i];
-    currentText += char;
-    
-    element.textContent = currentText;
-    
-    autoScrollConversation();
-    
-    const delay = char === '.' || char === '!' || char === '?' 
-      ? speed * 10 
-      : char === ',' || char === ';' 
-      ? speed * 5 
-      : char === ' ' 
-      ? speed * 2
-      : speed;
+      element.innerHTML = "";
+      const characters = text.split("");
+      let currentText = "";
+      
+      for (let i = 0; i < characters.length; i++) {
+        const char = characters[i];
+        currentText += char;
         
-    await new Promise(resolve => setTimeout(resolve, delay));
-  }
-  
-  createLinksInText(currentText, element);
-  
-  setTimeout(autoScrollConversation, 100);
-};
+        element.innerHTML = makeLinksClickable(currentText);
+        
+        // Auto-scroll during typing to follow the response
+        autoScrollConversation();
+        
+        const delay = char === '.' || char === '!' || char === '?' 
+          ? speed * 10 
+          : char === ',' || char === ';' 
+          ? speed * 5 
+          : char === ' ' 
+          ? speed * 2
+          : speed;
+          
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+      
+      // Final scroll to ensure everything is visible
+      setTimeout(autoScrollConversation, 100);
+    };
 
     const addBubble = async (text, role="user", sources=[]) => {
       const conv = document.getElementById("conversation");
