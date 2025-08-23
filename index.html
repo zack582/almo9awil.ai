@@ -1145,45 +1145,50 @@
     };
 
     const makeLinksClickable = (text) => {
-      const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
-      return text.replace(urlRegex, (url) => {
-        try {
-          // Clean the URL by removing trailing punctuation
-          let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
-          
-          // Skip very short URLs
-          if (cleanUrl.length < 8) {
-            return url;
-          }
-          
-          // Validate URL format
-          let urlObj;
-          try {
-            urlObj = new URL(cleanUrl);
-          } catch {
-            return url;
-          }
-          
-          const domain = urlObj.hostname.replace('www.', '');
-          
-          // Skip localhost and local IPs
-          if (domain.includes('localhost') || 
-              domain.includes('127.0.0.1') || 
-              domain.includes('192.168.') ||
-              domain.includes('10.0.') ||
-              domain.includes('172.')) {
-            return url;
-          }
-          
-          // Create actual <a> link instead of onclick function to avoid popup blocker
-          return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
-          
-        } catch (e) {
-          console.warn('Invalid URL detected:', url, e);
-          return url;
-        }
-      });
-    };
+  // Éviter de traiter du texte qui contient déjà des balises HTML
+  if (text.includes('<a href=') || text.includes('</a>')) {
+    return text;
+  }
+
+  const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
+  return text.replace(urlRegex, (url) => {
+    try {
+      // Clean the URL by removing trailing punctuation
+      let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
+      
+      // Skip very short URLs
+      if (cleanUrl.length < 8) {
+        return url;
+      }
+      
+      // Validate URL format
+      let urlObj;
+      try {
+        urlObj = new URL(cleanUrl);
+      } catch {
+        return url;
+      }
+      
+      const domain = urlObj.hostname.replace('www.', '');
+      
+      // Skip localhost and local IPs
+      if (domain.includes('localhost') || 
+          domain.includes('127.0.0.1') || 
+          domain.includes('192.168.') ||
+          domain.includes('10.0.') ||
+          domain.includes('172.')) {
+        return url;
+      }
+      
+      // Create actual <a> link - VERSION CORRIGÉE
+      return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link">${domain} <span>↗</span></a>`;
+      
+    } catch (e) {
+      console.warn('Invalid URL detected:', url, e);
+      return url;
+    }
+  });
+};
 
     const typeText = async (element, text, speed = 20) => {
       element.innerHTML = "";
