@@ -1180,8 +1180,8 @@
         return url;
       }
       
-      // Create actual <a> link - VERSION CORRIGÉE
-      return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link">${domain} <span>↗</span></a>`;
+      // Create actual <a> link - VERSION CORRIGÉE (s'ouvre dans nouvelle fenêtre)
+      return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
       
     } catch (e) {
       console.warn('Invalid URL detected:', url, e);
