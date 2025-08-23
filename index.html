@@ -1193,6 +1193,17 @@
   });
 };
 
+    // Gestionnaire d'événements global pour forcer les liens externes
+document.addEventListener('click', function(event) {
+  const target = event.target.closest('.inline-link');
+  if (target && target.tagName === 'SPAN' && target.onclick) {
+    event.preventDefault();
+    event.stopPropagation();
+    target.onclick();
+    return false;
+  }
+});
+
     const typeText = async (element, text, speed = 20) => {
       element.innerHTML = "";
       const characters = text.split("");
