@@ -1144,7 +1144,12 @@
       return answer.trim();
     };
 
-    const createLinksInText = (text, container) => {
+const createLinksInText = (text, container) => {
+  // Nettoyer le texte d'abord
+  text = text.replace(/<[^>]*>/g, ''); // Supprimer HTML
+  text = text.replace(/\*\*(.*?)\*\*/g, '$1'); // Convertir markdown gras
+  text = text.replace(/\s+/g, ' ').trim(); // Nettoyer espaces
+  
   const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
   const parts = text.split(urlRegex);
   
@@ -1211,6 +1216,8 @@
     }
   });
 };
+
+    
     const typeText = async (element, text, speed = 20) => {
   element.innerHTML = "";
   const characters = text.split("");
