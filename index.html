@@ -1175,21 +1175,10 @@
             return url;
           }
           
-// Create onclick handler to avoid Netlify routing issues
-          const linkId = 'link_' + Math.random().toString(36).substr(2, 9);
+          // Create actual <a> link instead of onclick function to avoid popup blocker
+
+        return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
           
-          setTimeout(() => {
-            const linkElement = document.getElementById(linkId);
-            if (linkElement) {
-              linkElement.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                window.open(cleanUrl, '_blank', 'noopener,noreferrer');
-              });
-            }
-          }, 100);
-          
-          return `<span id="${linkId}" class="inline-link" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></span>`;          
         } catch (e) {
           console.warn('Invalid URL detected:', url, e);
           return url;
