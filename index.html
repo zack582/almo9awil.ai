@@ -3,34 +3,31 @@
 <head>
   <meta charset="utf-8" /> 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>محرك البحث – المقاول</title>
+  <title>محرك البحث — المقاول</title>
   <meta name="color-scheme" content="light dark" />
   <meta name="description" content="محرك بحث ذكي للمقاولين والأعمال التجارية" />
   <meta name="keywords" content="مقاول، أعمال، بحث، ذكي، عربي" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
 
-    :root{
+    :root {
       --bg: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
-      --bg-secondary: rgba(26, 26, 58, 0.8);
-      --card: rgba(47, 47, 95, 0.9);
-      --card-hover: rgba(58, 58, 110, 0.95);
-      --muted: #9ca3af;
+      --bg-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.06);
       --text: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --accent: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-      --accent-glow: #3b82f6;
-      --accent-hover: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      --text-muted: #94a3b8;
+      --accent: #3b82f6;
+      --accent-rgb: 59, 130, 246;
       --accent-2: #60a5fa;
-      --border: rgba(148, 163, 184, 0.2);
-      --border-light: rgba(148, 163, 184, 0.4);
-      --shadow: 0 4px 24px rgba(0,0,0,0.25);
-      --shadow-lg: 0 20px 50px rgba(0,0,0,0.4);
-      --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.3);
-      --radius: 16px;
-      --radius-lg: 24px;
-      --glass-bg: rgba(255, 255, 255, 0.05);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      --success: #10b981;
+      --error: #ef4444;
+      --border: rgba(148, 163, 184, 0.12);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+      --radius: 20px;
+      --radius-xl: 28px;
     }
 
     * {
@@ -39,18 +36,16 @@
       padding: 0;
     }
 
-    html {
+    html, body {
+      height: 100%;
+      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
       scroll-behavior: smooth;
     }
 
-    html, body {
-      height: 100%;
-      font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      overflow-x: hidden;
-    }
-
     body {
-      background: var(--bg);
+      background: var(--bg), var(--bg-noise);
+      background-attachment: fixed;
       color: var(--text);
       direction: rtl;
       text-align: right;
@@ -58,7 +53,7 @@
       position: relative;
     }
 
-    /* Animated background particles */
+    /* Animated mesh background */
     body::before {
       content: '';
       position: fixed;
@@ -67,123 +62,135 @@
       width: 100%;
       height: 100%;
       background: 
-        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(37, 99, 235, 0.05) 0%, transparent 50%);
-      animation: float 20s ease-in-out infinite;
+        radial-gradient(circle at 25% 25%, rgba(var(--accent-rgb), 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(96, 165, 250, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.04) 0%, transparent 50%);
+      animation: mesh-float 20s ease-in-out infinite;
       pointer-events: none;
       z-index: -1;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      33% { transform: translateY(-20px) rotate(1deg); }
-      66% { transform: translateY(10px) rotate(-1deg); }
+    @keyframes mesh-float {
+      0%, 100% { 
+        transform: translate(0, 0) scale(1); 
+        opacity: 1; 
+      }
+      33% { 
+        transform: translate(30px, -30px) scale(1.02); 
+        opacity: 0.8; 
+      }
+      66% { 
+        transform: translate(-20px, 20px) scale(0.98); 
+        opacity: 0.9; 
+      }
     }
 
-    .wrap {
+    /* Modern container */
+    .container {
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0 24px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       position: relative;
     }
 
+    /* Enhanced header */
     .header {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 48px 0 32px;
+      padding: 60px 0 40px;
       position: relative;
     }
 
     .brand {
       display: flex;
-      gap: 24px;
+      gap: 32px;
       align-items: center;
-      justify-content: center;
       flex-direction: row-reverse;
-      position: relative;
     }
 
     .logo {
-      width: 72px;
-      height: 72px;
-      border-radius: var(--radius-lg);
+      width: 80px;
+      height: 80px;
+      border-radius: var(--radius-xl);
       display: grid;
       place-items: center;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
       color: white;
-      font-weight: 800;
-      font-size: 28px;
-      letter-spacing: 0.5px;
-      box-shadow: var(--shadow-glow), var(--shadow-lg);
+      font-weight: 900;
+      font-size: 32px;
+      letter-spacing: -0.5px;
       position: relative;
       overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.2),
+        0 8px 32px rgba(var(--accent-rgb), 0.3),
+        var(--shadow);
     }
 
     .logo::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-      transform: rotate(45deg);
-      animation: shine 3s ease-in-out infinite;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      transform: translateX(-100%) rotate(45deg);
+      animation: logo-shine 3s ease-in-out infinite;
     }
 
-    @keyframes shine {
+    @keyframes logo-shine {
       0% { transform: translateX(-100%) rotate(45deg); }
-      50% { transform: translateX(100%) rotate(45deg); }
-      100% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(200%) rotate(45deg); }
     }
 
     .logo:hover {
-      transform: scale(1.05) rotate(5deg);
-      box-shadow: var(--shadow-glow), 0 30px 60px rgba(0,0,0,0.5);
+      transform: scale(1.08) rotate(3deg);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.4),
+        0 16px 64px rgba(var(--accent-rgb), 0.4),
+        0 32px 80px rgba(0, 0, 0, 0.3);
     }
 
     h1 {
-      font-size: 56px;
+      font-size: clamp(48px, 5vw, 72px);
       margin: 0;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--text) 0%, var(--accent-2) 50%, var(--text) 100%);
+      letter-spacing: -0.025em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-2) 40%, var(--text) 100%);
       background-size: 200% 200%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      animation: gradient-shift 4s ease-in-out infinite;
-      text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+      animation: gradient-flow 6s ease-in-out infinite;
+      position: relative;
     }
 
-    @keyframes gradient-shift {
+    @keyframes gradient-flow {
       0%, 100% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
     }
 
     .subtitle {
-      color: var(--muted);
+      color: var(--text-muted);
       text-align: center;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 400;
-      margin: 24px 0 40px;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
+      margin: 32px auto 48px;
+      max-width: 600px;
       opacity: 0;
-      animation: fadeInUp 1s ease-out 0.5s forwards;
+      animation: fade-up 1s ease-out 0.3s forwards;
     }
 
-    @keyframes fadeInUp {
+    @keyframes fade-up {
       from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translateY(24px);
       }
       to {
         opacity: 1;
@@ -191,128 +198,145 @@
       }
     }
 
+    /* Modern search section */
     .search-section {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 40px;
     }
 
-    .search-card {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    .search-container {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: var(--glass);
       border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-lg);
-      border-radius: var(--radius-lg);
-      padding: 32px;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: var(--radius-xl);
+      padding: 40px;
       position: relative;
       overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow);
     }
 
-    .search-card::before {
+    .search-container::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent-2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.6), transparent);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
 
-    .search-card:hover {
-      border-color: var(--border-light);
-      box-shadow: var(--shadow-glow), var(--shadow-lg);
-      transform: translateY(-2px);
+    .search-container:hover {
+      background: var(--glass-hover);
+      border-color: rgba(var(--accent-rgb), 0.2);
+      transform: translateY(-4px);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.1),
+        0 16px 64px rgba(0, 0, 0, 0.3);
     }
 
-    .search-card:hover::before {
+    .search-container:hover::before {
       opacity: 1;
     }
 
-    .row {
+    /* Enhanced search form */
+    .search-form {
       display: flex;
-      align-items: center;
-      gap: 16px;
+      align-items: stretch;
+      gap: 20px;
       flex-direction: row-reverse;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
     }
 
-    .input {
+    .search-input-wrapper {
       flex: 1;
       position: relative;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
       border: 2px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-    }
-
-    .input::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .input:focus-within {
-      border-color: var(--accent-glow);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), var(--shadow);
-      transform: translateY(-1px);
-    }
-
-    .input:focus-within::before {
-      left: 100%;
-    }
-
-    .input input {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text);
-      width: 100%;
+      border-radius: var(--radius);
+      padding: 24px 28px;
       font-size: 18px;
       font-family: inherit;
-      font-weight: 400;
+      color: var(--text);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      z-index: 1;
     }
 
-    .input input::placeholder {
-      color: var(--muted);
+    .search-input::placeholder {
+      color: var(--text-muted);
       font-weight: 300;
     }
 
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.04);
+      box-shadow: 
+        0 0 0 4px rgba(var(--accent-rgb), 0.12),
+        0 8px 32px rgba(var(--accent-rgb), 0.2);
+      transform: translateY(-2px);
+    }
+
+    .search-input-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.1), transparent);
+      border-radius: var(--radius);
+      opacity: 0;
+      transform: translateX(-100%);
+      transition: all 0.6s ease;
+      z-index: 0;
+    }
+
+    .search-input:focus + .search-input-wrapper::before,
+    .search-input-wrapper:hover::before {
+      opacity: 1;
+      transform: translateX(100%);
+    }
+
+    /* Modern buttons */
     .btn {
       appearance: none;
       border: none;
       cursor: pointer;
       border-radius: var(--radius);
-      padding: 20px 32px;
+      padding: 24px 32px;
       font-weight: 600;
       font-size: 16px;
-      color: white;
-      background: var(--accent);
+      font-family: inherit;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
       gap: 12px;
       position: relative;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      white-space: nowrap;
     }
 
-    .btn::before {
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
+      color: white;
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.2),
+        0 8px 24px rgba(var(--accent-rgb), 0.3);
+    }
+
+    .btn-primary::before {
       content: '';
       position: absolute;
       top: 0;
@@ -320,115 +344,119 @@
       width: 100%;
       height: 100%;
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s ease;
+      transition: left 0.6s ease;
     }
 
-    .btn:hover:not([disabled]) {
-      background: var(--accent-hover);
+    .btn-primary:hover:not([disabled]) {
+      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
       transform: translateY(-3px) scale(1.02);
-      box-shadow: var(--shadow-glow), 0 15px 40px rgba(0,0,0,0.4);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.4),
+        0 16px 48px rgba(var(--accent-rgb), 0.4);
     }
 
-    .btn:hover:not([disabled])::before {
+    .btn-primary:hover:not([disabled])::before {
       left: 100%;
     }
 
-    .btn[disabled] {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .btn:active:not([disabled]) {
-      transform: translateY(-1px) scale(1.01);
-    }
-
-    .ghost {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
+    .btn-secondary {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
       border: 2px solid var(--border);
       color: var(--text);
     }
 
-    .ghost:hover:not([disabled]) {
-      background: var(--card-hover);
-      border-color: var(--accent-glow);
-      box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    .btn-secondary:hover:not([disabled]) {
+      background: var(--glass-hover);
+      border-color: rgba(var(--accent-rgb), 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     }
 
-    .chips {
+    .btn[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    /* Enhanced suggestions */
+    .suggestions {
       display: flex;
       gap: 16px;
       flex-wrap: wrap;
       justify-content: flex-end;
       opacity: 0;
-      animation: fadeInUp 1s ease-out 1s forwards;
+      animation: fade-up 1s ease-out 0.6s forwards;
     }
 
-    .chip {
+    .suggestion-chip {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 12px 20px;
-      border-radius: 30px;
+      color: var(--text-muted);
+      padding: 14px 24px;
+      border-radius: 50px;
       font-size: 15px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
       position: relative;
       overflow: hidden;
     }
 
-    .chip::before {
+    .suggestion-chip::before {
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
       width: 0;
       height: 0;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
-      transition: all 0.3s ease;
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.1) 0%, transparent 70%);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translate(-50%, -50%);
     }
 
-    .chip:hover {
+    .suggestion-chip:hover {
       color: var(--text);
-      border-color: var(--accent-glow);
-      background: var(--card);
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.08);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.2),
+        0 8px 32px rgba(var(--accent-rgb), 0.2);
     }
 
-    .chip:hover::before {
+    .suggestion-chip:hover::before {
       width: 200%;
       height: 200%;
     }
 
-    .main-content {
+    /* Modern content grid */
+    .content-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: 32px;
       opacity: 0;
-      animation: fadeInUp 1s ease-out 1.5s forwards;
+      animation: fade-up 1s ease-out 0.9s forwards;
     }
 
     @media (min-width: 1024px) {
-      .main-content {
+      .content-grid {
         grid-template-columns: 2fr 1fr;
       }
     }
 
     .panel {
-      background: var(--glass-bg);
-      backdrop-filter: blur(20px);
+      background: var(--glass);
+      backdrop-filter: blur(24px);
       border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 32px;
+      border-radius: var(--radius-xl);
+      padding: 40px;
       height: fit-content;
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .panel::before {
@@ -438,37 +466,218 @@
       left: -2px;
       right: -2px;
       bottom: -2px;
-      background: linear-gradient(135deg, var(--accent-glow), transparent, var(--accent-2), transparent);
-      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.2), transparent, rgba(96, 165, 250, 0.2));
+      border-radius: var(--radius-xl);
       opacity: 0;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.4s ease;
       z-index: -1;
     }
 
     .panel:hover {
-      border-color: var(--border-light);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-glow), 0 25px 50px rgba(0,0,0,0.4);
+      background: var(--glass-hover);
+      border-color: rgba(var(--accent-rgb), 0.2);
+      transform: translateY(-6px);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.1),
+        0 24px 80px rgba(0, 0, 0, 0.25);
     }
 
     .panel:hover::before {
       opacity: 1;
     }
 
-    .result {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      min-height: 500px;
+    /* Enhanced conversation display */
+    .conversation {
+      min-height: 400px;
+      max-height: 70vh;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+      padding-right: 8px;
     }
 
+    .conversation::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .conversation::-webkit-scrollbar-track {
+      background: var(--glass);
+      border-radius: 3px;
+    }
+
+    .conversation::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      border-radius: 3px;
+    }
+
+    .message-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 16px;
+      color: var(--accent);
+      opacity: 0.9;
+    }
+
+    .message-bubble {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 32px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 16px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transform: scaleX(0);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .message-bubble:hover {
+      background: var(--glass-hover);
+      border-color: rgba(var(--accent-rgb), 0.2);
+      transform: translateX(-4px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+
+    .message-bubble:hover::before {
+      transform: scaleX(1);
+    }
+
+    .message-bubble.error {
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    /* Enhanced status bar */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px var(--accent);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 16px var(--accent);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.2);
+        box-shadow: 0 0 24px var(--accent);
+      }
+    }
+
+    .copy-btn {
+      font-size: 13px;
+      padding: 12px 20px;
+      border-radius: var(--radius);
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 600;
+    }
+
+    .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(var(--accent-rgb), 0.2);
+    }
+
+    /* Modern thinking indicator */
+    .thinking-indicator {
+      background: var(--glass);
+      border: 2px solid var(--accent);
+      animation: thinking-pulse 2s infinite;
+      position: relative;
+    }
+
+    @keyframes thinking-pulse {
+      0%, 100% {
+        border-color: var(--accent);
+        box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.2);
+      }
+      50% {
+        border-color: var(--accent-2);
+        box-shadow: 0 0 32px rgba(96, 165, 250, 0.3);
+      }
+    }
+
+    .thinking-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .thinking-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: thinking-bounce 1.4s infinite both;
+    }
+
+    .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
+    .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes thinking-bounce {
+      0%, 80%, 100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      40% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+    }
+
+    /* Enhanced links */
     .inline-link {
-      color: var(--accent-glow);
+      color: var(--accent);
       text-decoration: none;
-      padding: 4px 12px;
+      padding: 6px 12px;
       border-radius: 12px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
       font-size: 14px;
       font-weight: 600;
       display: inline-flex;
@@ -487,16 +696,16 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.3s ease;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: left 0.4s ease;
     }
 
     .inline-link:hover {
       color: white;
-      background: var(--accent-glow);
-      border-color: var(--accent-glow);
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.3);
     }
 
     .inline-link:hover::before {
@@ -515,197 +724,13 @@
       transform: translate(2px, -2px);
     }
 
-    .bubble {
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      line-height: 1.8;
-      white-space: pre-wrap;
-      word-break: break-word;
-      font-size: 16px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bubble::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent-glow), var(--accent-2));
-      transform: scaleX(0);
-      transition: transform 0.5s ease;
-    }
-
-    .bubble:hover {
-      border-color: var(--border-light);
-      transform: translateX(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .bubble:hover::before {
-      transform: scaleX(1);
-    }
-
-    .meta {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      color: var(--muted);
-      font-size: 15px;
-      font-weight: 500;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-
-    .sources {
-      display: grid;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .src {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .src::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
-      transition: left 0.5s ease;
-    }
-
-    .src:hover {
-      border-color: var(--accent-glow);
-      background: var(--card);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-    }
-
-    .src:hover::before {
-      left: 100%;
-    }
-
-    .src a {
-      color: var(--accent-glow);
-      text-decoration: none;
-      direction: ltr !important;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .src a:hover {
-      text-decoration: underline;
-      color: var(--accent-2);
-      text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--accent-2);
-      box-shadow: 0 0 20px var(--accent-2);
-      animation: pulse-glow 2s infinite;
-    }
-
-    @keyframes pulse-glow {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-        box-shadow: 0 0 20px var(--accent-2);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(1.1);
-        box-shadow: 0 0 30px var(--accent-2);
-      }
-    }
-
-    .muted { color: var(--muted); font-weight: 500; }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 24px 0;
-      flex: 1;
-    }
-
-    .error {
-      color: #ef4444;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .copy {
-      font-size: 13px;
-      border: 1px solid var(--border);
-      padding: 10px 16px;
-      border-radius: var(--radius);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      color: var(--muted);
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      font-weight: 600;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .copy::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
-      transition: all 0.3s ease;
-      transform: translate(-50%, -50%);
-    }
-
-    .copy:hover {
-      color: var(--text);
-      border-color: var(--accent-glow);
-      background: var(--card);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
-    }
-
-    .copy:hover::before {
-      width: 200%;
-      height: 200%;
-    }
-
+    /* Enhanced spinner */
     .spinner {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
+      width: 20px;
+      height: 20px;
       border: 2px solid rgba(255,255,255,0.2);
-      border-top-color: var(--accent-glow);
+      border-top: 2px solid var(--accent);
+      border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
 
@@ -713,9 +738,10 @@
       to { transform: rotate(360deg); }
     }
 
-    .panel h3 {
-      margin: 0 0 24px 0;
-      font-size: 20px;
+    /* Modern sidebar */
+    .sidebar-title {
+      margin: 0 0 28px 0;
+      font-size: 22px;
       font-weight: 700;
       color: var(--text);
       background: linear-gradient(135deg, var(--text), var(--accent-2));
@@ -724,126 +750,159 @@
       background-clip: text;
     }
 
-    .conversation-label {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      color: var(--accent-glow);
-      opacity: 0.9;
+    .history-list {
+      display: grid;
+      gap: 20px;
     }
 
-    /* Scroll to results indicator */
+    .history-item {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .history-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.05), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .history-item:hover {
+      border-color: rgba(var(--accent-rgb), 0.3);
+      background: var(--glass-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(var(--accent-rgb), 0.15);
+    }
+
+    .history-item:hover::before {
+      left: 100%;
+    }
+
+    .history-query {
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .history-time {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    /* Enhanced scroll indicator */
     .scroll-indicator {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
-      background: var(--accent);
+      bottom: 32px;
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--accent) 0%, #1d4ed8 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       z-index: 100;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       opacity: 0;
-      transform: translateY(20px);
-      box-shadow: var(--shadow-glow), var(--shadow);
+      transform: translateY(20px) scale(0.8);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.2),
+        0 8px 32px rgba(var(--accent-rgb), 0.3);
     }
 
     .scroll-indicator.show {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
 
     .scroll-indicator:hover {
       transform: scale(1.1);
-      box-shadow: var(--shadow-glow), 0 15px 40px rgba(0,0,0,0.4);
+      box-shadow: 
+        0 0 0 1px rgba(var(--accent-rgb), 0.4),
+        0 16px 48px rgba(var(--accent-rgb), 0.4);
     }
 
     .scroll-indicator::after {
       content: "⬇";
       color: white;
-      font-size: 20px;
+      font-size: 24px;
       animation: bounce-down 2s infinite;
     }
 
     @keyframes bounce-down {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(5px);
-      }
-      60% {
-        transform: translateY(3px);
-      }
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(4px); }
+      60% { transform: translateY(2px); }
     }
 
-    /* Light mode */
+    /* Light mode adaptations */
     @media (prefers-color-scheme: light) {
       :root {
         --bg: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        --bg-secondary: rgba(248, 250, 252, 0.8);
-        --card: rgba(255, 255, 255, 0.9);
-        --card-hover: rgba(248, 250, 252, 0.95);
+        --glass: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.8);
+        --glass-hover: rgba(255, 255, 255, 0.85);
         --text: #1e293b;
-        --text-secondary: #475569;
-        --muted: #64748b;
-        --border: rgba(148, 163, 184, 0.3);
-        --border-light: rgba(148, 163, 184, 0.5);
-        --shadow: 0 4px 24px rgba(0,0,0,0.08);
-        --shadow-lg: 0 20px 50px rgba(0,0,0,0.15);
-        --glass-bg: rgba(255, 255, 255, 0.4);
-        --glass-border: rgba(255, 255, 255, 0.6);
+        --text-muted: #64748b;
+        --border: rgba(148, 163, 184, 0.2);
+        --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.12);
       }
 
       body::before {
         background: 
-          radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
+          radial-gradient(circle at 25% 25%, rgba(var(--accent-rgb), 0.04) 0%, transparent 50%),
+          radial-gradient(circle at 75% 75%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
       }
     }
 
     /* Mobile responsiveness */
     @media (max-width: 768px) {
-      .wrap {
-        padding: 0 20px;
+      .container {
+        padding: 0 16px;
       }
       
       .header {
-        padding: 32px 0 24px;
+        padding: 40px 0 32px;
       }
       
       h1 {
-        font-size: 40px;
+        font-size: clamp(36px, 8vw, 48px);
       }
       
       .logo {
-        width: 56px;
-        height: 56px;
-        font-size: 24px;
+        width: 64px;
+        height: 64px;
+        font-size: 26px;
       }
       
-      .search-card {
+      .search-container {
         padding: 24px;
       }
       
-      .row {
+      .search-form {
         flex-direction: column;
-        gap: 20px;
+        gap: 16px;
       }
       
-      .chips {
+      .suggestions {
         justify-content: center;
       }
       
-      .chip {
+      .suggestion-chip {
         font-size: 14px;
-        padding: 10px 16px;
+        padding: 12px 20px;
       }
 
       .panel {
@@ -851,134 +910,87 @@
       }
 
       .scroll-indicator {
-        bottom: 20px;
-        right: 20px;
-        width: 45px;
-        height: 45px;
+        bottom: 24px;
+        right: 24px;
+        width: 48px;
+        height: 48px;
+      }
+
+      .brand {
+        gap: 24px;
       }
     }
 
-    /* Focus states */
-    .btn:focus-visible, .chip:focus-visible, .copy:focus-visible {
-      outline: 2px solid var(--accent-glow);
-      outline-offset: 3px;
-    }
-
-    /* Thinking indicators */
-    .thinking-bubble {
-      background: var(--glass-bg);
-      border: 2px solid var(--accent-glow);
-      animation: thinking-pulse 2s infinite;
-    }
-
-    @keyframes thinking-pulse {
-      0%, 100% {
-        border-color: var(--accent-glow);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+    @media (max-width: 480px) {
+      .search-form .btn {
+        padding: 20px 24px;
+        font-size: 15px;
       }
-      50% {
-        border-color: var(--accent-2);
-        box-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+
+      .search-input {
+        padding: 20px 24px;
+        font-size: 16px;
+      }
+
+      .content-grid {
+        gap: 24px;
       }
     }
 
-    .thinking-dots {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 12px;
+    /* Focus states for accessibility */
+    .btn:focus-visible, 
+    .suggestion-chip:focus-visible, 
+    .copy-btn:focus-visible,
+    .search-input:focus-visible {
+      outline: 3px solid rgba(var(--accent-rgb), 0.5);
+      outline-offset: 2px;
     }
 
-    .thinking-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--accent-glow);
-      border-radius: 50%;
-      animation: thinking-bounce 1.4s infinite both;
-    }
-
-    .thinking-dot:nth-child(1) {
-      animation-delay: -0.32s;
-    }
-
-    .thinking-dot:nth-child(2) {
-      animation-delay: -0.16s;
-    }
-
-    @keyframes thinking-bounce {
-      0%, 80%, 100% {
-        transform: scale(0.8);
-        opacity: 0.5;
+    /* Reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
-      40% {
-        transform: scale(1.2);
-        opacity: 1;
+      
+      .scroll-indicator {
+        animation: none;
+      }
+      
+      .thinking-dot {
+        animation: none;
       }
     }
 
-    .thinking-text {
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 500;
-      animation: thinking-fade 2s infinite;
-    }
-
-    @keyframes thinking-fade {
-      0%, 100% {
-        opacity: 0.6;
-      }
-      50% {
-        opacity: 1;
+    /* High contrast mode */
+    @media (prefers-contrast: high) {
+      :root {
+        --glass: rgba(0, 0, 0, 0.9);
+        --glass-border: rgba(255, 255, 255, 0.3);
+        --border: rgba(255, 255, 255, 0.5);
       }
     }
 
-    /* Scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--accent-glow);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-2);
-    }
-
-    /* Auto-scroll animations */
-    .conversation-container {
-      max-height: 70vh;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-      padding-right: 8px;
-    }
-
-    /* Highlight effect for new content */
-    .new-content {
-      animation: highlight-pulse 3s ease-out;
-    }
-
-    @keyframes highlight-pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    /* Print styles */
+    @media print {
+      body::before,
+      .scroll-indicator,
+      .search-container,
+      .sidebar {
+        display: none !important;
       }
-      50% {
-        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0.1);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+      
+      .panel {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
       }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="container">
     <header class="header">
       <div class="brand">
         <h1>المقاول</h1>
@@ -986,46 +998,48 @@
       </div>
     </header>
 
-    <div class="search-section">
-      <div class="search-card">
-        <form id="search-form" class="row" autocomplete="off">
-          <div class="input">
-            <input id="q" name="q" placeholder="اكتب سؤالك هنا…" required />
+    <div class="subtitle">محرك بحث ذكي للمقاولين والأعمال التجارية</div>
+
+    <main class="search-section">
+      <div class="search-container">
+        <form id="search-form" class="search-form" autocomplete="off">
+          <div class="search-input-wrapper">
+            <input id="q" name="q" class="search-input" placeholder="اكتب سؤالك هنا…" required />
           </div>
-          <button id="submit-btn" class="btn" type="submit">
+          <button id="submit-btn" class="btn btn-primary" type="submit">
             <span>ابحث</span>
           </button>
-          <button type="button" id="clear" class="btn ghost">محو</button>
+          <button type="button" id="clear" class="btn btn-secondary">محو</button>
         </form>
-        <div class="chips" id="chips">
-          <span class="chip">ما هو المقاول الذاتي؟</span>
-          <span class="chip">كيفية إنشاء خطة عمل؟</span>
-          <span class="chip">أفكار مشاريع ناجحة</span>
-          <span class="chip">مصادر تمويل المشاريع</span>
+        
+        <div class="suggestions" id="chips">
+          <span class="suggestion-chip">ما هو المقاول الذاتي؟</span>
+          <span class="suggestion-chip">كيفية إنشاء خطة عمل؟</span>
+          <span class="suggestion-chip">أفكار مشاريع ناجحة</span>
+          <span class="suggestion-chip">مصادر تمويل المشاريع</span>
         </div>
       </div>
 
-      <div class="main-content" id="main-content">
-        <section class="panel result" id="results">
-          <div class="meta">
-            <div class="status">
-              <span class="dot"></span> 
+      <div class="content-grid" id="main-content">
+        <section class="panel" id="results">
+          <div class="status-bar">
+            <div class="status-indicator">
+              <span class="status-dot"></span> 
               <span id="status-text">جاهز</span>
             </div>
-            <div class="divider"></div>
-            <button id="copy-last" class="copy">نسخ آخر إجابة</button>
+            <button id="copy-last" class="copy-btn">نسخ آخر إجابة</button>
           </div>
-          <div id="conversation" class="conversation-container"></div>
+          <div id="conversation" class="conversation"></div>
         </section>
 
-        <aside class="panel">
-          <h3>السجل المحلي</h3>
-          <div id="history" class="sources muted"></div>
-          <div class="divider"></div>
-          <button id="clear-history" class="btn ghost">مسح السجل</button>
+        <aside class="panel sidebar">
+          <h3 class="sidebar-title">السجل المحلي</h3>
+          <div id="history" class="history-list"></div>
+          <div style="height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 24px 0;"></div>
+          <button id="clear-history" class="btn btn-secondary" style="width: 100%;">مسح السجل</button>
         </aside>
       </div>
-    </div>
+    </main>
 
     <!-- Scroll to results indicator -->
     <div class="scroll-indicator" id="scroll-indicator"></div>
@@ -1033,26 +1047,25 @@
 
   <script>
     // Configuration - Update this URL for production
-    const WEBHOOK_URL = "http://localhost:5678/webhook-test/247924dc-d09c-44bb-b062-033b71738f7f";
+    const WEBHOOK_URL = window.location.hostname === 'localhost' 
+      ? "http://localhost:5678/webhook-test/247924dc-d09c-44bb-b062-033b71738f7f"
+      : "https://your-production-webhook-url.com/webhook/your-id";
     const REQUEST_TIMEOUT = 60000;
 
-    // Auto-scroll functionality
+    // Enhanced auto-scroll functionality
     const autoScrollToResults = () => {
       const resultsSection = document.getElementById('main-content');
       const scrollIndicator = document.getElementById('scroll-indicator');
       
-      // Show scroll indicator
       scrollIndicator.classList.add('show');
       
-      // Smooth scroll to results with offset for better visibility
-      const offsetPosition = resultsSection.offsetTop - 100;
+      const offsetPosition = resultsSection.offsetTop - 80;
       
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
       
-      // Hide scroll indicator after scroll
       setTimeout(() => {
         scrollIndicator.classList.remove('show');
       }, 2000);
@@ -1066,145 +1079,127 @@
       });
     };
 
-    const status = (text, loading=false) => {
-      const t = document.getElementById("status-text");
-      t.textContent = text;
+    const updateStatus = (text, loading = false) => {
+      const statusElement = document.getElementById("status-text");
+      statusElement.textContent = text;
       
-      const existingSpinner = t.querySelector(".spinner");
+      const existingSpinner = statusElement.querySelector(".spinner");
       if (existingSpinner) existingSpinner.remove();
       
       if (loading) {
         const spinner = document.createElement("span");
         spinner.className = "spinner";
-        spinner.style = "margin-left:10px";
-        t.prepend(spinner);
+        spinner.style.marginLeft = "12px";
+        statusElement.appendChild(spinner);
       }
     };
 
     let searchHistory = [];
 
-    const saveHistory = (item) => {
+    const saveToHistory = (item) => {
       searchHistory.unshift(item);
       searchHistory = searchHistory.slice(0, 50);
       renderHistory();
     };
 
     const renderHistory = () => {
-      const wrap = document.getElementById("history");
-      wrap.innerHTML = "";
+      const historyContainer = document.getElementById("history");
+      historyContainer.innerHTML = "";
       
       if (!searchHistory.length) {
-        wrap.innerHTML = "<div class='muted'>السجل فارغ. ستظهر آخر 50 عملية بحث هنا.</div>";
+        historyContainer.innerHTML = "<div style='color: var(--text-muted); text-align: center; padding: 20px;'>السجل فارغ. ستظهر آخر 50 عملية بحث هنا.</div>";
         return;
       }
       
-      searchHistory.forEach(it => {
-        const b = document.createElement("div"); 
-        b.className = "src";
+      searchHistory.forEach(item => {
+        const historyItem = document.createElement("div");
+        historyItem.className = "history-item";
         
-        const title = document.createElement("div");
-        title.innerHTML = `<strong>${it.q}</strong>`;
+        const query = document.createElement("div");
+        query.className = "history-query";
+        query.textContent = item.q;
         
-        const when = document.createElement("div");
-        when.className = "muted";
-        when.style.fontSize = "12px";
-        when.style.marginTop = "8px";
-        when.textContent = new Date(it.t).toLocaleString("ar-MA");
+        const time = document.createElement("div");
+        time.className = "history-time";
+        time.textContent = new Date(item.t).toLocaleString("ar-MA");
         
-        const btn = document.createElement("button");
-        btn.className = "copy";
-        btn.textContent = "أعد البحث";
-        btn.style.marginTop = "12px";
-        btn.onclick = () => {
-          document.getElementById("q").value = it.q;
+        const repeatBtn = document.createElement("button");
+        repeatBtn.className = "btn btn-secondary";
+        repeatBtn.textContent = "أعد البحث";
+        repeatBtn.style.fontSize = "13px";
+        repeatBtn.style.padding = "8px 16px";
+        repeatBtn.onclick = () => {
+          document.getElementById("q").value = item.q;
           document.getElementById("search-form").dispatchEvent(new Event("submit"));
         };
         
-        b.appendChild(title);
-        b.appendChild(when);
-        b.appendChild(btn);
-        wrap.appendChild(b);
+        historyItem.appendChild(query);
+        historyItem.appendChild(time);
+        historyItem.appendChild(repeatBtn);
+        historyContainer.appendChild(historyItem);
       });
     };
 
-    const cleanAnswer = (rawData) => {
-      let answer = "";
+    const cleanResponse = (rawData) => {
+      let response = "";
       
       if (typeof rawData === "string") {
         try {
           const parsed = JSON.parse(rawData);
-          answer = parsed.completion || parsed.answer || parsed.data || parsed.text || rawData;
+          response = parsed.completion || parsed.answer || parsed.data || parsed.text || rawData;
         } catch {
-          answer = rawData;
+          response = rawData;
         }
       } else if (rawData && typeof rawData === "object") {
-        answer = rawData.completion || rawData.answer || rawData.data || rawData.text || JSON.stringify(rawData, null, 2);
+        response = rawData.completion || rawData.answer || rawData.data || rawData.text || JSON.stringify(rawData, null, 2);
       }
       
-      return answer.trim();
+      return response.trim();
     };
 
     const makeLinksClickable = (text) => {
-  // Éviter de traiter du texte qui contient déjà des balises HTML
-  if (text.includes('<a href=') || text.includes('</a>')) {
-    return text;
-  }
-
-  const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
-  return text.replace(urlRegex, (url) => {
-    try {
-      // Clean the URL by removing trailing punctuation
-      let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
-      
-      // Skip very short URLs
-      if (cleanUrl.length < 8) {
-        return url;
+      if (text.includes('<a href=') || text.includes('</a>')) {
+        return text;
       }
-      
-      // Validate URL format
-      let urlObj;
-      try {
-        urlObj = new URL(cleanUrl);
-      } catch {
-        return url;
-      }
-      
-      const domain = urlObj.hostname.replace('www.', '');
-      
-      // Skip localhost and local IPs
-      if (domain.includes('localhost') || 
-          domain.includes('127.0.0.1') || 
-          domain.includes('192.168.') ||
-          domain.includes('10.0.') ||
-          domain.includes('172.')) {
-        return url;
-      }
-      
-      // Generate unique ID for this link
-      const linkId = 'link_' + Math.random().toString(36).substr(2, 9);
-      
-      // Create link with onclick handler for guaranteed new window opening
-      return `<a id="${linkId}" href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" onclick="event.preventDefault(); window.open('${cleanUrl}', '_blank', 'noopener,noreferrer'); return false;" style="cursor: pointer; color: var(--accent-glow); text-decoration: underline; padding: 4px 8px; border: 1px solid var(--border); border-radius: 8px; background: rgba(59, 130, 246, 0.1); display: inline-flex; align-items: center; gap: 4px;">${domain} <span style="font-size: 12px;">↗</span></a>`;
-      
-    } catch (e) {
-      console.warn('Invalid URL detected:', url, e);
-      return url;
-    }
-  });
-};
 
-    // Gestionnaire d'événements global pour forcer les liens externes
-document.addEventListener('click', function(event) {
-  const target = event.target.closest('.inline-link');
-  if (target && target.tagName === 'SPAN' && target.onclick) {
-    event.preventDefault();
-    event.stopPropagation();
-    target.onclick();
-    return false;
-  }
-});
+      const urlRegex = /(https?:\/\/[^\s<>"()[\]]+)/g;
+      return text.replace(urlRegex, (url) => {
+        try {
+          let cleanUrl = url.replace(/[)}\].,;:!?]+$/, '');
+          
+          if (cleanUrl.length < 8) {
+            return url;
+          }
+          
+          let urlObj;
+          try {
+            urlObj = new URL(cleanUrl);
+          } catch {
+            return url;
+          }
+          
+          const domain = urlObj.hostname.replace('www.', '');
+          
+          if (domain.includes('localhost') || 
+              domain.includes('127.0.0.1') || 
+              domain.includes('192.168.') ||
+              domain.includes('10.0.') ||
+              domain.includes('172.')) {
+            return url;
+          }
+          
+          const linkId = 'link_' + Math.random().toString(36).substr(2, 9);
+          
+          return `<a id="${linkId}" href="${cleanUrl}" target="_blank" rel="noopener noreferrer" class="inline-link" onclick="event.preventDefault(); window.open('${cleanUrl}', '_blank', 'noopener,noreferrer'); return false;" style="cursor: pointer;">${domain}</a>`;
+          
+        } catch (e) {
+          console.warn('Invalid URL detected:', url, e);
+          return url;
+        }
+      });
+    };
 
-    const typeText = async (element, text, speed = 20) => {
+    const typeText = async (element, text, speed = 15) => {
       element.innerHTML = "";
       const characters = text.split("");
       let currentText = "";
@@ -1215,105 +1210,104 @@ document.addEventListener('click', function(event) {
         
         element.innerHTML = makeLinksClickable(currentText);
         
-        // Auto-scroll during typing to follow the response
         autoScrollConversation();
         
         const delay = char === '.' || char === '!' || char === '?' 
-          ? speed * 10 
+          ? speed * 8 
           : char === ',' || char === ';' 
-          ? speed * 5 
+          ? speed * 4 
           : char === ' ' 
-          ? speed * 2
+          ? speed * 1.5
           : speed;
           
         await new Promise(resolve => setTimeout(resolve, delay));
       }
       
-      // Final scroll to ensure everything is visible
       setTimeout(autoScrollConversation, 100);
     };
 
-    const addBubble = async (text, role="user", sources=[]) => {
-      const conv = document.getElementById("conversation");
+    const addMessage = async (text, role = "user", sources = []) => {
+      const conversation = document.getElementById("conversation");
       
       const label = document.createElement("div");
-      label.className = "conversation-label";
-      label.textContent = role === "user" ? "أنت" : role === "error" ? "خطأ" : "الرد";
-      conv.appendChild(label);
+      label.className = "message-label";
+      label.textContent = role === "user" ? "أنت" : role === "error" ? "خطأ" : "المساعد";
+      conversation.appendChild(label);
 
-      const box = document.createElement("div");
-      box.className = "bubble" + (role === "error" ? " error" : "") + " new-content";
+      const bubble = document.createElement("div");
+      bubble.className = "message-bubble" + (role === "error" ? " error" : "");
       
       if (role === "ai") {
-        conv.appendChild(box);
-        // Scroll to show the new bubble before typing starts
+        conversation.appendChild(bubble);
         autoScrollConversation();
-        await typeText(box, text, 18);
+        await typeText(bubble, text, 12);
       } else {
-        box.textContent = text;
-        conv.appendChild(box);
-        // Scroll to show user input
+        bubble.textContent = text;
+        conversation.appendChild(bubble);
         autoScrollConversation();
       }
 
       if (role === "ai" && sources.length) {
-        const title = document.createElement("div");
-        title.className = "conversation-label";
-        title.style.marginTop = "20px";
-        title.textContent = "مصادر";
+        const sourcesLabel = document.createElement("div");
+        sourcesLabel.className = "message-label";
+        sourcesLabel.style.marginTop = "24px";
+        sourcesLabel.textContent = "مصادر";
         
-        const grid = document.createElement("div");
-        grid.className = "sources new-content";
+        const sourcesContainer = document.createElement("div");
+        sourcesContainer.className = "history-list";
         
-        sources.forEach(s => {
-          const item = document.createElement("div");
-          item.className = "src";
-          const a = document.createElement("a");
-          a.href = s.url; 
-          a.target = "_blank"; 
-          a.rel = "noreferrer noopener";
-          a.textContent = s.title;
-          item.appendChild(a);
-          grid.appendChild(item);
+        sources.forEach(source => {
+          const sourceItem = document.createElement("div");
+          sourceItem.className = "history-item";
+          
+          const sourceLink = document.createElement("a");
+          sourceLink.href = source.url; 
+          sourceLink.target = "_blank"; 
+          sourceLink.rel = "noreferrer noopener";
+          sourceLink.textContent = source.title;
+          sourceLink.style.color = "var(--accent)";
+          sourceLink.style.textDecoration = "none";
+          sourceLink.style.fontWeight = "600";
+          
+          sourceItem.appendChild(sourceLink);
+          sourcesContainer.appendChild(sourceItem);
         });
         
-        conv.appendChild(title);
-        conv.appendChild(grid);
-        
-        // Scroll to show sources
+        conversation.appendChild(sourcesLabel);
+        conversation.appendChild(sourcesContainer);
         autoScrollConversation();
       }
 
-      // Remove highlight animation class after animation completes
-      setTimeout(() => {
-        box.classList.remove('new-content');
-        if (role === "ai" && sources.length) {
-          document.querySelector('.sources.new-content')?.classList.remove('new-content');
-        }
-      }, 3000);
-
-      conv.dataset.last = text;
+      conversation.dataset.lastResponse = text;
     };
 
-    async function askN8N(question) {
+    const callWebhook = async (question) => {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
-      let res;
       
       try {
-        res = await fetch(WEBHOOK_URL, {
+        const response = await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { 
-            "Content-Type": "application/json",
-            // Add any required authentication headers here
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({ question }),
           signal: controller.signal
         });
+
+        clearTimeout(timer);
+        
+        if (!response.ok) {
+          const errorText = await response.text().catch(() => "");
+          throw new Error(`خطأ في الخدمة (${response.status}) — ${errorText || "خطأ في الطلب"}`);
+        }
+        
+        const contentType = response.headers.get("content-type") || "";
+        return contentType.includes("application/json") ? response.json() : response.text();
+        
       } catch (error) {
         clearTimeout(timer);
         
-        // Handle network errors gracefully
         if (error.name === 'AbortError') {
           throw new Error('انتهت مهلة الطلب. يرجى المحاولة مرة أخرى.');
         }
@@ -1323,52 +1317,36 @@ document.addEventListener('click', function(event) {
         }
         
         throw new Error('خطأ في الاتصال بالخدمة. يرجى المحاولة لاحقاً.');
-      } finally {
-        clearTimeout(timer);
       }
-      
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error(`خطأ في الخدمة (${res.status}) – ${txt || "خطأ في الطلب"}`);
-      }
-      
-      const ct = res.headers.get("content-type") || "";
-      return ct.includes("application/json") ? res.json() : res.text();
-    }
+    };
 
-    // Enhanced event listeners with auto-scroll functionality
+    // Enhanced event listeners
     document.getElementById("search-form").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const q = document.getElementById("q").value.trim();
-      if (!q) return;
+      const query = document.getElementById("q").value.trim();
+      if (!query) return;
       
       const submitBtn = document.getElementById("submit-btn");
       const inputElement = document.getElementById("q");
       
-      // Clear the input field immediately so user can type another question
       inputElement.value = "";
-      
       submitBtn.disabled = true;
-      inputElement.style.transform = "scale(0.98)";
       
-      // Auto-scroll to results section when user submits a question
       setTimeout(autoScrollToResults, 300);
       
-      // Show user question first
-      await addBubble(q, "user");
+      await addMessage(query, "user");
       
-      // Show thinking status
-      status("المساعد يفكر في الإجابة...", true);
+      updateStatus("المساعد يفكر في الإجابة...", true);
       
-      // Add thinking indicator in conversation
-      const conv = document.getElementById("conversation");
+      // Add thinking indicator
+      const conversation = document.getElementById("conversation");
       const thinkingLabel = document.createElement("div");
-      thinkingLabel.className = "conversation-label";
+      thinkingLabel.className = "message-label";
       thinkingLabel.textContent = "المساعد";
       thinkingLabel.id = "thinking-label";
       
       const thinkingBubble = document.createElement("div");
-      thinkingBubble.className = "bubble thinking-bubble";
+      thinkingBubble.className = "message-bubble thinking-indicator";
       thinkingBubble.id = "thinking-bubble";
       thinkingBubble.innerHTML = `
         <div class="thinking-dots">
@@ -1376,20 +1354,22 @@ document.addEventListener('click', function(event) {
           <span class="thinking-dot"></span>
           <span class="thinking-dot"></span>
         </div>
-        <div class="thinking-text">يتم تحليل السؤال وإعداد الإجابة...</div>
+        <div style="text-align: center; color: var(--text-muted); font-size: 14px; margin-top: 8px;">
+          يتم تحليل السؤال وإعداد الإجابة...
+        </div>
       `;
       
-      conv.appendChild(thinkingLabel);
-      conv.appendChild(thinkingBubble);
+      conversation.appendChild(thinkingLabel);
+      conversation.appendChild(thinkingBubble);
       autoScrollConversation();
 
       try {
-        const raw = await askN8N(q);
-        const answer = cleanAnswer(raw);
+        const rawResponse = await callWebhook(query);
+        const answer = cleanResponse(rawResponse);
         let sources = [];
         
-        if (raw && typeof raw === "object" && Array.isArray(raw.sources)) {
-          sources = raw.sources.map(s => 
+        if (rawResponse && typeof rawResponse === "object" && Array.isArray(rawResponse.sources)) {
+          sources = rawResponse.sources.map(s => 
             typeof s === "string" 
               ? { title: s, url: s } 
               : { title: s.title || s.url, url: s.url || "#" }
@@ -1400,34 +1380,19 @@ document.addEventListener('click', function(event) {
         document.getElementById("thinking-label")?.remove();
         document.getElementById("thinking-bubble")?.remove();
         
-        // Add AI response with auto-scroll
-        await addBubble(answer, "ai", sources);
-        saveHistory({ q, t: Date.now() });
-        status("تم الانتهاء", false);
+        await addMessage(answer, "ai", sources);
+        saveToHistory({ q: query, t: Date.now() });
+        updateStatus("تم الانتهاء", false);
         
-        // Success animation
-        inputElement.style.transform = "scale(1)";
-        inputElement.style.borderColor = "var(--accent-glow)";
-        setTimeout(() => {
-          inputElement.style.borderColor = "";
-        }, 1000);
+      } catch(error) {
+        console.error(error);
         
-      } catch(err) {
-        console.error(err);
-        
-        // Remove thinking indicators
         document.getElementById("thinking-label")?.remove();
         document.getElementById("thinking-bubble")?.remove();
         
-        await addBubble(err.message, "error");
-        status("حدث خطأ", false);
+        await addMessage(error.message, "error");
+        updateStatus("حدث خطأ", false);
         
-        // Error animation
-        inputElement.style.transform = "scale(1)";
-        inputElement.style.borderColor = "#ef4444";
-        setTimeout(() => {
-          inputElement.style.borderColor = "";
-        }, 2000);
       } finally {
         submitBtn.disabled = false;
       }
@@ -1435,28 +1400,22 @@ document.addEventListener('click', function(event) {
 
     document.getElementById("clear").onclick = () => {
       const input = document.getElementById("q");
-      const conv = document.getElementById("conversation");
+      const conversation = document.getElementById("conversation");
       
       input.value = "";
-      conv.innerHTML = "";
-      status("جاهز");
-      
-      // Clear animation
-      input.style.transform = "scale(1.02)";
-      setTimeout(() => {
-        input.style.transform = "scale(1)";
-        input.focus();
-      }, 200);
+      conversation.innerHTML = "";
+      updateStatus("جاهز");
+      input.focus();
     };
 
     document.getElementById("copy-last").onclick = () => {
-      const txt = document.getElementById("conversation").dataset.last || "";
-      if (!txt) {
+      const lastResponse = document.getElementById("conversation").dataset.lastResponse || "";
+      if (!lastResponse) {
         alert("لا توجد إجابة للنسخ.");
         return;
       }
       
-      navigator.clipboard.writeText(txt)
+      navigator.clipboard.writeText(lastResponse)
         .then(() => {
           const btn = document.getElementById("copy-last");
           const originalText = btn.textContent;
@@ -1474,16 +1433,15 @@ document.addEventListener('click', function(event) {
     };
 
     document.getElementById("chips").onclick = (e) => {
-      const chip = e.target.closest(".chip");
+      const chip = e.target.closest(".suggestion-chip");
       if (!chip) return;
       
-      // Chip click animation
       chip.style.transform = "scale(0.95)";
       setTimeout(() => {
         chip.style.transform = "";
         const input = document.getElementById("q");
         input.value = chip.textContent.trim();
-        input.focus(); // Focus sur le champ pour que l'utilisateur voit que le texte a été inséré
+        input.focus();
       }, 150);
     };
 
@@ -1491,30 +1449,21 @@ document.addEventListener('click', function(event) {
       if (confirm("هل أنت متأكد من مسح السجل؟")) {
         searchHistory = [];
         renderHistory();
-        
-        // Clear animation
-        const btn = document.getElementById("clear-history");
-        btn.style.transform = "scale(0.95)";
-        setTimeout(() => {
-          btn.style.transform = "";
-        }, 150);
       }
     };
 
-    // Scroll indicator click handler
     document.getElementById("scroll-indicator").onclick = () => {
       autoScrollToResults();
     };
 
-    // Initialize with entrance animations
+    // Initialize
     document.addEventListener('DOMContentLoaded', () => {
       renderHistory();
       
-      // Add entrance animation to elements
-      const elements = document.querySelectorAll('.search-card, .panel');
+      const elements = document.querySelectorAll('.search-container, .panel');
       elements.forEach((el, index) => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
+        el.style.transform = 'translateY(20px)';
         setTimeout(() => {
           el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
           el.style.opacity = '1';
@@ -1522,23 +1471,16 @@ document.addEventListener('click', function(event) {
         }, 200 + (index * 100));
       });
       
-      // Focus on input when page loads
       setTimeout(() => {
         document.getElementById("q").focus();
       }, 1000);
     });
 
-    // Add keyboard shortcuts
+    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        if (e.key === 'k') {
-          e.preventDefault();
-          document.getElementById("q").focus();
-        }
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          document.getElementById("search-form").dispatchEvent(new Event("submit"));
-        }
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById("q").focus();
       }
       
       if (e.key === 'Escape') {
@@ -1546,7 +1488,7 @@ document.addEventListener('click', function(event) {
       }
     });
 
-    // Enhanced scroll behavior for better UX
+    // Enhanced scroll behavior
     let scrollTimeout;
     window.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
@@ -1554,9 +1496,8 @@ document.addEventListener('click', function(event) {
         const scrollIndicator = document.getElementById('scroll-indicator');
         const resultsSection = document.getElementById('main-content');
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        const resultsPosition = resultsSection.offsetTop - 200;
+        const resultsPosition = resultsSection.offsetTop - 150;
         
-        // Show scroll indicator if user is above results section and there's content
         const hasContent = document.getElementById('conversation').children.length > 0;
         
         if (scrollTop < resultsPosition && hasContent) {
@@ -1565,6 +1506,17 @@ document.addEventListener('click', function(event) {
           scrollIndicator.classList.remove('show');
         }
       }, 100);
+    });
+
+    // Force external links to open in new window
+    document.addEventListener('click', function(event) {
+      const target = event.target.closest('.inline-link');
+      if (target && target.onclick) {
+        event.preventDefault();
+        event.stopPropagation();
+        target.onclick();
+        return false;
+      }
     });
   </script>
 </body>
